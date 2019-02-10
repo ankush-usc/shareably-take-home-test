@@ -1,0 +1,55 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red38\green38\blue38;\red255\green255\blue255;\red255\green255\blue255;
+}
+{\*\expandedcolortbl;;\cssrgb\c20000\c20000\c20000;\cssrgb\c100000\c100000\c100000;\cssrgb\c100000\c100000\c100000;
+}
+\margl1440\margr1440\vieww27040\viewh22900\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 1) Wrote all the logic on Javascript client due to deployment and time restrictions. I would have written the Business logic (recommendation of new budget) on the server (Java REST Server) and exposed an API to pull the data on to the client.\
+\
+2) Pros of current solution: a) A quick spin up of the solution to the problem given.  b) Not much deployment issues as everything is on the client\
+\
+3) Cons of this solution: a) Slow as computations are done on the fly (receiving and processing 7 date calls and 27 budget ajax calls) \
+b) If done on server, I would have defined a config file to read dates for which we need to consider the data and updated the config file , so that the solution could be easily scaled to higher ranges without much changes to the code.\
+c) This solution just portrays my idea of solution to the problem, and not a scalable solution. (it is scalable but not performance efficient)\
+\
+4) I am assuming that I have to allocate budget to all the campaigns that I received in the data. As there are 27 campaigns on all days, I had to make an assumption that I had to consider all of them while allocating new budget.\
+\
+5) Campaigns are analyzed and assigned Click Factor (clicks/impressions) and ROI factor ((revenue-spend)/spend). And then this is divided in to buckets based on sorted factors and relevant priority points attached to it. \
+There are two functions in javascript code that provides information on how the points are assigned.\
+\
+6) After the points allocation, the campaigns are again divided into buckets and simulations are run on different budget allocations as seen in below matrix:\
+[50,25,15,10]\
+[50,30,15,5]\
+[40,30,20,10]\
+\
+One might argue that why don\'92t we assign all the budget to the top bucket to get maximum profit. The key point here is data set is less and it is risky to assign all the budget to just few campaigns as there would be a lot of other factors than just ROI and click factor. So, I decided to distribute the budget accordingly to minimize the risk.\
+Given more time, I would have written a service that could simulate different percentages for the buckets and select the optimum percentage of budget division.\
+\
+7) After running the simulation for the above three different allocations, I selected the best distribution that provided maximum profit as seen in recommendation.php or the recommendation tab on the UI\
+\
+8) I have attached the Output screen shots to get a quick view.\
+\
+I have also added the zip file and instruction below on the set up.\
+\
+INSTRUCTIONS:\
+\
+1) The files can be extracted on document root folder /var/www/html (with apache or http installation)\
+\
+2) php uses curl to get data from API end point, so installation of curl is required.\
+\
+3) You can load up 
+\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\ul \ulc2 recommendation.php
+\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \ulnone  on browser once all the installation is done.\
+\
+4) I have also attached my dev workspace link (c9.io) here. Where I have hosted my files, you can click on this link to view the output straight away. The link has to be restarted every 24 hours, so, please let me know if it doesn\'92t load and I will restart the link. Thanks.\
+\pard\pardeftab720\sl300\partightenfactor0
+
+\fs26 \cf2 \cb4 \expnd0\expndtw0\kerning0
+\ul \ulc2 \outl0\strokewidth0 \strokec2 https://shareably-take-home-test-ankush-usc.c9users.io/recommendation.php\
+\pard\pardeftab720\sl300\partightenfactor0
+\cf2 \cb3 \ulc2 \outl0\strokewidth0 \
+Recommendation tab on side bar, gives you the new budget allocation}
